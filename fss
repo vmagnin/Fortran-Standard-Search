@@ -1,0 +1,48 @@
+#! /bin/sh
+# A script to search a subsection in the Fortran standard
+# and open the corresponding pages
+# Vincent Magnin, 2022-10-24
+# Tested in Ubuntu 22.04
+# Verified with the shellcheck linter
+
+# Strict mode for Bash:
+#set -euo pipefail
+
+# Put here the path to your Fortran Standard PDF:
+readonly standard='18-007r1.pdf'
+# Put here the page of the final index:
+readonly index_page='616'
+
+# Analysis of the command line arguments:
+if [ ${#} -eq 0 ]; then
+    # No argument => opens the index of the standard:
+    okular -p "${index_page}" "${standard}" &
+    exit 0
+else
+    readonly intrinsic="${1}"
+fi
+
+readonly grep_options='-niP'
+
+# The regex will detect strings like "12.5 blabla", ""12.5.1 blabla", "12.5.1.2 blabla", etc.
+lines=$(pdfgrep "${grep_options}" "\d+\.\d+\s+${intrinsic}" "${standard}")
+
+if [ "${lines}" = "" ]; then
+  echo 'String not found'
+  okular -p "${index_page}" "${standard}" &
+  exit 1
+else
+  # Display the result of the pdfgrep command:
+  echo "${lines}"
+fi
+
+# In the pdfgrep results, the number at the beginning of each line, followed by a ":", is the line number in the PDF:
+# 355:15     16.9.2        ABS (A)
+# We create a list with only the page numbers (field 1, separator ":"):
+pages=$(echo "${lines}"  | cut -f 1 -d ':')
+
+# And we open each page in the Okular PDF viewer:
+for that_page in ${pages}
+do
+  okular -p "${that_page}" "${standard}" &
+done
