@@ -51,6 +51,7 @@ $ ./fss "abs \("
 * Discussion at the origin of this project: https://fortran-lang.discourse.group/t/navigating-the-fortran-standard-document/4597
 * https://pdfgrep.org/
 * https://www.gnu.org/software/coreutils/manual/coreutils.html#cut-invocation
+* https://en.wikipedia.org/wiki/List_of_PDF_software#Linux_and_Unix
 * https://okular.kde.org/
 * https://wiki.gnome.org/Apps/Evince
 * https://man.archlinux.org/man/xreader.1.en
