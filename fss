@@ -30,8 +30,8 @@ usage(){
     echo '  -h       help'
     echo
     echo 'Examples:'
-    echo '  $ ./fss abs'
-    echo '  $ ./fss "abs \("'
+    echo "  $ ${0} abs"
+    echo "  $ ${0} \"abs \(\""
     echo
     echo 'MIT license'
     echo 'https://github.com/vmagnin/Fortran-Standard-Search'
@@ -44,7 +44,7 @@ while getopts h option ; do
         ?) echo ; usage ; exit 2 ;;    # unknown options
     esac
 done
-# Let's jummp after the options arguments:
+# Let's jump after the options arguments:
 shift $((OPTIND - 1))
 # Analysis of the other arguments:
 if [ ${#} -eq 0 ]; then
