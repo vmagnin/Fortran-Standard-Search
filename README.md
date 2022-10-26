@@ -41,6 +41,7 @@ $ ./fss "abs \("
 - If the string is not found, `fss` opens the index of the standard.
 - With GNOME Evince and its `-i` option, if there are several results only one page will be opened.
 - This script could be used with any other PDF document with the same kind of section numbering and naming.
+- In FreeBSD 13.1, `pdfgrep` is available but unhappily it says that PCRE support was disabled at compilation time. Evince and Okular are available, but also `xreader` which have a `-i` option like Evince.
 
 # TODO
 
@@ -52,3 +53,4 @@ $ ./fss "abs \("
 * https://www.gnu.org/software/coreutils/manual/coreutils.html#cut-invocation
 * https://okular.kde.org/
 * https://wiki.gnome.org/Apps/Evince
+* https://man.archlinux.org/man/xreader.1.en
