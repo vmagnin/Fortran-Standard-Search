@@ -19,7 +19,34 @@ readonly index_page='616'
 readonly viewer='okular' vieweropts='-p'
 #readonly viewer='evince' vieweropts='-i'
 
-# Analysis of the command line arguments:
+usage(){
+    echo "Usage: ${0} [OPTION]... [PATTERN]"
+    echo
+    echo 'fss is a small shell script searching a string in the titles'
+    echo 'of the subsections of the Fortran standard, and opening'
+    echo 'the pages in a PDF viewer.'
+    echo
+    echo 'Options:'
+    echo '  -h       help'
+    echo
+    echo 'Examples:'
+    echo '  $ ./fss abs'
+    echo '  $ ./fss "abs \("'
+    echo
+    echo 'MIT license'
+    echo 'https://github.com/vmagnin/Fortran-Standard-Search'
+}
+
+# Command line analysis:
+while getopts h option ; do
+    case "${option}" in
+        h) usage ; exit 0 ;;           # help
+        ?) echo ; usage ; exit 2 ;;    # unknown options
+    esac
+done
+# Let's jummp after the options arguments:
+shift $((OPTIND - 1))
+# Analysis of the other arguments:
 if [ ${#} -eq 0 ]; then
     # No argument => opens the index of the standard:
     ${viewer} "${vieweropts}" "${index_page}" "${standard}" &

@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 - `pdfgrep` options `--color always --cache`. Using the cache speeds dramatically the search when the command is used several times.
 - `${viewer}` and `${vieweropts}` constants to choose easily a PDF viewer.
+- Options can now be added to `fss`: the `-h` option will call the `usage()` function.
 
 ### Changed
 - The `pdfgrep` options are now set up using their full name for clarity.

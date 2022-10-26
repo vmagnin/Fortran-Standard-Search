@@ -29,6 +29,10 @@ $ ./fss "abs \("
 355:15     16.9.2        ABS (A)
 ```
 
+# Options
+
+- `-h` will print `fss` usage.
+
 
 # Notes
 
@@ -41,7 +45,6 @@ $ ./fss "abs \("
 # TODO
 
 - An `--ignore-case` option could be added as it could be useful to take case into account (the Fortran intrinsics are generally in uppercase in the standard).
-- A `--help` option could be added.
 
 # References
 * Discussion at the origin of this project: https://fortran-lang.discourse.group/t/navigating-the-fortran-standard-document/4597
