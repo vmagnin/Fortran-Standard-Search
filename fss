@@ -2,6 +2,8 @@
 # A script to search a subsection in the Fortran standard
 # and open the corresponding pages
 # Vincent Magnin, 2022-10-24
+# Other contributors: msz59
+# Last modifications: vmagnin 2022-10-26
 # Tested in Ubuntu 22.04
 # Verified with the shellcheck linter
 
@@ -13,23 +15,32 @@ readonly standard='18-007r1.pdf'
 # Put here the page of the final index:
 readonly index_page='616'
 
+# Set up your PDF viewer and its options:
+readonly viewer='okular' vieweropts='-p'
+#readonly viewer='evince' vieweropts='-i'
+
 # Analysis of the command line arguments:
 if [ ${#} -eq 0 ]; then
     # No argument => opens the index of the standard:
-    okular -p "${index_page}" "${standard}" &
+    ${viewer} "${vieweropts}" "${index_page}" "${standard}" &
     exit 0
 else
     readonly intrinsic="${1}"
 fi
 
-readonly grep_options='-niP'
+readonly grep_options='--color always --cache --ignore-case --page-number -P'
 
-# The regex will detect strings like "12.5 blabla", ""12.5.1 blabla", "12.5.1.2 blabla", etc.
-lines=$(pdfgrep "${grep_options}" "\d+\.\d+\s+${intrinsic}" "${standard}")
+# Perl regular expressions:
+# This regex will detect strings like "12.5 blabla", ""12.5.1 blabla", "12.5.1.2 blabla", etc.
+readonly grep_regex="\d+\.\d+\s+${intrinsic}"
+#readonly grep_regex="\d+\.\d+\s+\w*${intrinsic}\w*\s*\("
+#readonly grep_regex="\d+\.\d+\s+${intrinsic}\s*\("
+
+lines=$(pdfgrep ${grep_options} "${grep_regex}"  "${standard}")
 
 if [ "${lines}" = "" ]; then
   echo 'String not found'
-  okular -p "${index_page}" "${standard}" &
+  ${viewer} "${vieweropts}" "${index_page}" "${standard}" &
   exit 1
 else
   # Display the result of the pdfgrep command:
@@ -44,5 +55,5 @@ pages=$(echo "${lines}"  | cut -f 1 -d ':')
 # And we open each page in the Okular PDF viewer:
 for that_page in ${pages}
 do
-  okular -p "${that_page}" "${standard}" &
+  ${viewer} "${vieweropts}" "${that_page}" "${standard}" &
 done

@@ -1,10 +1,10 @@
 # Fortran Standard Search
 
-`fss` is a small shell script searching a string in the titles of the subsection of the Fortran standard, and opening the pages in a PDF viewer. It is based on `pdfgrep`, `cut` and `okular`.
+`fss` is a small shell script searching a string in the titles of the subsections of the Fortran standard, and opening the pages in a PDF viewer. It is based on `pdfgrep`, `cut` and `okular` (`evince` can also be used).
 
-You can use the PDF of the official ISO standard or a J3 working document (see https://j3-fortran.org/doc/year/). Put the path to the PDF in the `standard` constant at the top of the script and the page of the index in the `index_page` constant.
+You can use the PDF of the official ISO standard or a J3 working document (see https://j3-fortran.org/doc/year/). Put the path to the PDF in the `standard` constant at the top of the script and the page of the index in the `index_page` constant. You can also configure your PDF viewer with the `viewer` and `vieweropts` constants.
 
-Then search for example the `ABS` intrinsic by typing:
+You can search for example the `ABS` intrinsic by typing:
 
 ```bash
 $ ./fss abs
@@ -22,29 +22,30 @@ $ ./fss "abs "
 355:15     16.9.2        ABS (A)
 ```
 
+Note that your search pattern is a regex. A consequence is that you should for example escape a parenthesis:
+
+```bash
+$ ./fss "abs \("
+355:15     16.9.2        ABS (A)
+```
+
 
 # Notes
 
 - `fss` uses the  `--ignore-case` option of `pdfgrep`.
 - If no string is passed, `fss` opens the index of the standard.
 - If the string is not found, `fss` opens the index of the standard.
-
+- With GNOME Evince and its `-i` option, if there are several results only one page will be opened.
+- This script could be used with any other PDF document with the same kind of section numbering and naming.
 
 # TODO
 
 - An `--ignore-case` option could be added as it could be useful to take case into account (the Fortran intrinsics are generally in uppercase in the standard).
 - A `--help` option could be added.
 
-
-# Other PDF viewers
-With GNOME evince, you can use the `-i` option:
-
-```bash
-evince -i ${that_page} "${standard}" &
-```
-
-But only one page will be opened.
-
-
 # References
 * Discussion at the origin of this project: https://fortran-lang.discourse.group/t/navigating-the-fortran-standard-document/4597
+* https://pdfgrep.org/
+* https://www.gnu.org/software/coreutils/manual/coreutils.html#cut-invocation
+* https://okular.kde.org/
+* https://wiki.gnome.org/Apps/Evince
